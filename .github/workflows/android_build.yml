@@ -46,7 +46,12 @@ jobs:
         run: echo "VERSION_NAME=$(git describe --tags | sed 's/\(.*\)-/\1./' | sed 's/\(.*\)-/\1+/')" >> $GITHUB_ENV
       
       # Generate apk
+      - name: Clean Gradle
+        run: |
+          cd android && ./gradlew clean
+
+      # Generate apk
       - name: Generate App APK
         run: |
-          cd android && ./gradlew assembleDebug --build-cache
+          cd android && ./gradlew assembleDebug
 
