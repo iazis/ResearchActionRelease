@@ -8,7 +8,7 @@ on:
 
 jobs:
   # Run Gradle Wrapper Validation Action to verify the Wrapper's checksum
-  gradle-validation:
+  install-and-test:
     name: Gradle Wrapper
     runs-on: ubuntu-latest # using ubuntu latest version / or you can use a specific version
     steps:
@@ -45,13 +45,20 @@ jobs:
       - name: Generate App Version Name
         run: echo "VERSION_NAME=$(git describe --tags | sed 's/\(.*\)-/\1./' | sed 's/\(.*\)-/\1+/')" >> $GITHUB_ENV
       
-      # Generate apk
-      - name: Clean Gradle
+  build-android:
+    needs: install-and-test
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - name: Install npm dependencies
         run: |
-          cd android && ./gradlew clean
-
-      # Generate apk
-      - name: Generate App APK
+          npm install
+      - name: Build Android Release
         run: |
-          cd android && ./gradlew assembleDebug
+          cd android && ./gradlew assembleRelease
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/
 
