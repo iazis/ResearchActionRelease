@@ -46,6 +46,7 @@ jobs:
         run: echo "VERSION_NAME=$(git describe --tags | sed 's/\(.*\)-/\1./' | sed 's/\(.*\)-/\1+/')" >> $GITHUB_ENV
       
   build-android:
+    name: build APK
     needs: install-and-test
     runs-on: ubuntu-latest
     steps: 
@@ -63,6 +64,7 @@ jobs:
           path: android/app/build/outputs/apk/release/
 
   deploy:    
+    name: Deploy APK
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
