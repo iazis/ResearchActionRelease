@@ -79,3 +79,13 @@ jobs:
           files: app-release.apk
     permissions:
       contents: write
+
+  release-on-push:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: minor
