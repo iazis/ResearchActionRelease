@@ -1,12 +1,10 @@
 name: Gradle Wrapper Validation
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
-    branches:
-      - main
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   # Run Gradle Wrapper Validation Action to verify the Wrapper's checksum
@@ -46,15 +44,9 @@ jobs:
       # Version
       - name: Generate App Version Name
         run: echo "VERSION_NAME=$(git describe --tags | sed 's/\(.*\)-/\1./' | sed 's/\(.*\)-/\1+/')" >> $GITHUB_ENV
+      
+      # Generate apk
+      - name: Generate App APK
+        run: |
+          cd android && ./gradlew assembleDebug --build-cache
 
-      # Upload artifact
-      - name: Upload Release APK
-        run: ./gradlew assembleDebug
-      - name: Releasing using Hub
-        uses: ShaunLWM/action-release-debugapk@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          APP_FOLDER: app
-          RELEASE_TITLE: New Build
-
-          
