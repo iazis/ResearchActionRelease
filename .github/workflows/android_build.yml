@@ -52,7 +52,8 @@ jobs:
         with:
           gradlePath: app/build.gradle.kts
           versionCode: ${{ github.run_number }}
-          versionName: ${{ env.VERSION_NAME }}
+          # versionName: ${{ env.VERSION_NAME }}
+          versionName: 1.0.0
 
       # Upload artifact
       - name: Upload Release APK
@@ -61,7 +62,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          # upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: app/build/outputs/apk/release/app-release.apk
           asset_name: signed-artifact.apk
           asset_content_type: application/zip
