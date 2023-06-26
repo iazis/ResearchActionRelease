@@ -74,9 +74,6 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
           <Section title="Debug">
             <DebugInstructions />
           </Section>
