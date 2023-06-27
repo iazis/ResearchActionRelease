@@ -91,5 +91,3 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: app-release.apk
-
-    
