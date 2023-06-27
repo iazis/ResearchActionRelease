@@ -74,18 +74,10 @@ jobs:
           name: app-release.apk
 
       - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v3
-        with:
-          fromTag: "v1.0.17"
-          toTag: "v1.0.22"
+        run: |
+          npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Release
-        uses: mikepenz/action-gh-release@v0.2.0-a03
-        with:
-          body: ${{steps.github_release.outputs.changelog}}
 
       - name: Release
         uses: softprops/action-gh-release@v1
